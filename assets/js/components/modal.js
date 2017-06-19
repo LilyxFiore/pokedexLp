@@ -12,7 +12,7 @@ const description = (content) => {
       '<img src="assets/icon/data.png" alt="" class="icon"></div>');
   const colRight = $('<div class="col s12 m9"></div>');
   const namePokemon = $('<h3 class="center-align no-marg-top capitalize">' + state.selectedPokemon.name +'</h3>');
-  const description = $('<p>' + state.pokemonInformation.description + '</p>');
+  const descriptions = $('<p>' + state.pokemonInformation.description + '</p>');
   const divCharacteristic = $('<div class="row div-characteristic"></div>');
   const colLeftDescription = $('<div class="col s6">' +
       '<p class="no-marg-bot">Altura</p><p class="no-marg-top">' + state.pokemonInformation.height +' m.</p>' +
@@ -21,7 +21,7 @@ const description = (content) => {
   const colRightDescription = $('<div class="col s6"></div>');
   const characteristics = $('<p class="no-marg-bot">Categoría</p><p class="no-marg-top">' + state.pokemonInformation.category + '</p>' +
       '<p class="no-marg-bot">Habilidad:</p>');
-  const type = $('<p>Tipo: </p><span>Bicho</span><span>Veneno</span>');
+  const type = $('<p class="no-marg-bot">Tipo: </p>');
   const weak = $('<p>Debilidad: </p><span>Roca</span><span>Fuego</span>');
 
   row.append(colLeft);
@@ -31,21 +31,25 @@ const description = (content) => {
   contentPokemon.append(contentIcon);
   row.append(colRight);
   colRight.append(namePokemon);
-  colRight.append(description);
+  colRight.append(descriptions);
   colRight.append(divCharacteristic);
   divCharacteristic.append(colLeftDescription);
   divCharacteristic.append(colRightDescription);
   colRightDescription.append(characteristics);
   colRight.append(type);
-  colRight.append(weak);
   content.append(row);
 
   const abilities = $('<span></span>');
   state.pokemonInformation.abilities.forEach( (e) => {  abilities.append($('<span class="capitalize">' + e + ' </span>'))});
 
   colRightDescription.append(abilities);
-};
 
+  const types = $('<span></span>');
+  state.pokemonInformation.types.forEach( (e) => {  types.append($('<span class="capitalize color-type">' + e + ' </span>'))});
+
+  colRight.append(types);
+  colRight.append(weak);
+};
 
 const renderModal = () =>{
   const section = $(".overlay");
@@ -66,18 +70,29 @@ const renderModal = () =>{
     section.empty();
   });
 
-  $.getJSON('http://pokeapi.co/api/v2/pokemon-species/'+state.selectedPokemon.id,(json)=>{
-    $.getJSON('http://pokeapi.co/api/v2/pokemon/'+state.selectedPokemon.id,(json2)=>{
+  $.getJSON('http://pokeapi.co/api/v2/pokemon-species/'+state.selectedPokemon.id,(json)=> {
+    $.getJSON('http://pokeapi.co/api/v2/pokemon/' + state.selectedPokemon.id, (json2) => {
       state.pokemonInformation = {
         description: json.flavor_text_entries[3].flavor_text,
-        category : json.genera[0].genus,
+        category: json.genera[2].genus,
         height: json2.height,
-        weight: json2.weight/10,
-        abilities: json2.abilities.map( (item) => item.ability.name),
-        json : json2,
+        weight: json2.weight / 10,
+        abilities: [],
+        urlAbilities: json2.abilities.map((item) => item.ability.url),
+        types: [],
+        urlTypes: json2.types.map((item) => item.type.url),
       };
-
-    description(modalContent);
+      state.pokemonInformation.urlAbilities.map(function(e, i){
+        $.getJSON(e,(json3) =>{
+          state.pokemonInformation.abilities.push(json3.names[2].name);
+        })
+      });
+      state.pokemonInformation.urlTypes.forEach(function(e, i){
+        $.getJSON(e,(json4) =>{
+          state.pokemonInformation.types.push(json4.names[4].name);
+          if(state.pokemonInformation.types.length == state.pokemonInformation.urlTypes.length ){description(modalContent)};
+        })
+      });
     });
-  });
+  })
 };
