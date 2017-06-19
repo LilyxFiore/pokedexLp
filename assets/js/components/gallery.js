@@ -8,7 +8,7 @@ const pokemonItem = (pokemon, update) => {
   const contentImg = $('<div class="img-pokemon"></div>');
   const imgPokemon = $('<img src="http://serebii.net/art/th/' + pokemon.id + '.png"/>');
   const contentIcon = $('<div class="img-icon"><img src="assets/icon/pokeball_gray.png" alt="" class="icon"><img src="assets/icon/valentines-heart.png" alt="" class="icon">' +
-      '<img src="assets/icon/data.png" alt="" class="icon"><p class="no-pad capitalize">' + '#' + num + '    ' +pokemon.name + '</p></div>');
+      '<img src="assets/icon/data.png" alt="" class="icon"><p class="no-marg-top capitalize">' + '#' + num + '    ' +pokemon.name + '</p></div>');
 
 
   modal.append(contentPokemon);

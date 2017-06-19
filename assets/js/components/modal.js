@@ -11,7 +11,7 @@ const description = (content) => {
   const contentIcon = $('<div class="img-icon"><img src="assets/icon/pokeball_gray.png" alt="" class="icon"><img src="assets/icon/valentines-heart.png" alt="" class="icon">' +
       '<img src="assets/icon/data.png" alt="" class="icon"></div>');
   const colRight = $('<div class="col s12 m9"></div>');
-  const namePokemon = $('<h3 class="center-align no-marg-top capitalize">' + state.selectedPokemon.name +'</h3><br>');
+  const namePokemon = $('<h3 class="center-align no-marg-top capitalize">' + state.selectedPokemon.name +'</h3>');
   const description = $('<p>' + state.pokemonInformation.description + '</p>');
   const divCharacteristic = $('<div class="row div-characteristic"></div>');
   const colLeftDescription = $('<div class="col s6">' +
@@ -41,7 +41,7 @@ const description = (content) => {
   content.append(row);
 
   const abilities = $('<span></span>');
-  state.pokemonInformation.abilities.forEach( (e) => {  abilities.append($('<span>' + e + '</span>'))});
+  state.pokemonInformation.abilities.forEach( (e) => {  abilities.append($('<span class="capitalize">' + e + ' </span>'))});
 
   colRightDescription.append(abilities);
 };
