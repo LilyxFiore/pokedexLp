@@ -77,8 +77,8 @@ const renderModal = () =>{
     section.empty();
   });
 
-  $.getJSON('http://pokeapi.co/api/v2/pokemon-species/'+state.selectedPokemon.id,(json)=> {
-    $.getJSON('http://pokeapi.co/api/v2/pokemon/' + state.selectedPokemon.id, (json2) => {
+  $.getJSON('https://pokeapi.co/api/v2/pokemon-species/'+state.selectedPokemon.id,(json)=> {
+    $.getJSON('https://pokeapi.co/api/v2/pokemon/' + state.selectedPokemon.id, (json2) => {
       state.pokemonInformation = {
         description: json.flavor_text_entries[3].flavor_text,
         category: json.genera[2].genus,

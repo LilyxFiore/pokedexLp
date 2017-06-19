@@ -18,7 +18,7 @@ const state = {
 
 $(_ =>{
   $("#root").html('<div class="center-align load"><img src="assets/img/pokemon-rewind.gif"/><p class="text-load">Loading ...</p></div>');
-  $.getJSON('http://pokeapi.co/api/v2/pokedex/1/', data =>{
+  $.getJSON('https://pokeapi.co/api/v2/pokedex/1/', data =>{
     $.each(data.pokemon_entries, (i,item) =>{
       state.pokemons.push({id: item.entry_number, name: item.pokemon_species.name});
       if ( i === 14 ) {
