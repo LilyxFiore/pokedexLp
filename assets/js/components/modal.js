@@ -85,6 +85,7 @@ const renderModal = () =>{
         height: json2.height,
         weight: json2.weight / 10,
         abilities: [],
+        gender: json.gender_rate,
         urlAbilities: json2.abilities.map((item) => item.ability.url),
         types: [],
         urlTypes: json2.types.map((item) => item.type.url),
