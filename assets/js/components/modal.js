@@ -21,8 +21,8 @@ const description = (content) => {
   const colRightDescription = $('<div class="col s6"></div>');
   const characteristics = $('<p class="no-marg-bot">Categoría</p><p class="no-marg-top">' + state.pokemonInformation.category + '</p>' +
       '<p class="no-marg-bot">Habilidad:</p>');
-  const type = $('<p class="no-marg-bot">Tipo: </p>');
-  const weak = $('<p>Debilidad: </p><span>Roca</span><span>Fuego</span>');
+  const type = $('<p>Tipo: </p>');
+  const weak = $('<p>Debilidad: </p>');
 
   row.append(colLeft);
   colLeft.append(contentPokemon);
@@ -47,8 +47,15 @@ const description = (content) => {
   const types = $('<span></span>');
   state.pokemonInformation.types.forEach( (e) => {  types.append($('<span class="capitalize color-type">' + e + ' </span>'))});
 
+  const weaks = $('<span></span>');
+  state.pokemonInformation.weakness.forEach(function(e){
+    e.forEach(function(p){
+      weaks.append($('<span class="capitalize color-weak">' + p.name + ' </span>'))
+    })
+  });
   colRight.append(types);
   colRight.append(weak);
+  colRight.append(weaks);
 };
 
 const renderModal = () =>{
@@ -81,6 +88,7 @@ const renderModal = () =>{
         urlAbilities: json2.abilities.map((item) => item.ability.url),
         types: [],
         urlTypes: json2.types.map((item) => item.type.url),
+        weakness : [],
       };
       state.pokemonInformation.urlAbilities.map(function(e, i){
         $.getJSON(e,(json3) =>{
@@ -90,6 +98,7 @@ const renderModal = () =>{
       state.pokemonInformation.urlTypes.forEach(function(e, i){
         $.getJSON(e,(json4) =>{
           state.pokemonInformation.types.push(json4.names[4].name);
+          state.pokemonInformation.weakness.push(json4.damage_relations.double_damage_from);
           if(state.pokemonInformation.types.length == state.pokemonInformation.urlTypes.length ){description(modalContent)};
         })
       });

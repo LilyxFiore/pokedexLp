@@ -21,7 +21,7 @@ $(_ =>{
   $.getJSON('http://pokeapi.co/api/v2/pokedex/1/', data =>{
     $.each(data.pokemon_entries, (i,item) =>{
       state.pokemons.push({id: item.entry_number, name: item.pokemon_species.name});
-      if ( i === 11 ) {
+      if ( i === 14 ) {
         const root = $('#root');
         render(root);
         return false;
